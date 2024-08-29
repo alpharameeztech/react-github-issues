@@ -9,21 +9,27 @@ function App() {
 
   return (
       <>
-      <div className="container">
-        <h1>React Github Reported Issues</h1>
           <Router>
-              <div className="todo-app-container">
-                  <div className="content">
-                      <Routes>
-                          <Route path="/" element={<Issues />} />
-                          <Route path="/issues/:id" element={<Details />} />
-                          <Route path="*" element={<NoMatch />} />
-                      </Routes>
-                  </div>
+              <nav>
+                  <ul>
+                      <li>
+                          <Link to="/">Home</Link>
+                      </li>
+                  </ul>
+              </nav>
+              <div className="container">
+                <h1>React Github Reported Issues</h1>
+                      <div className="todo-app-container">
+                          <div className="content">
+                              <Routes>
+                                  <Route path="/" element={<Issues />} />
+                                  <Route path="/issues/:id" element={<Details />} />
+                                  <Route path="*" element={<NoMatch />} />
+                              </Routes>
+                          </div>
+                      </div>
               </div>
           </Router>
-
-      </div>
       </>
   );
 }
