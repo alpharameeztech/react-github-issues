@@ -1,5 +1,6 @@
 import './App.css';
 import Details from "./Details";
+import {Link} from "react-router-dom";
 
 function App() {
   const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -65,9 +66,9 @@ function App() {
                       ></path>
                     </svg>
                     <div className="issues-title">
-                      <a href="#">
+                      <Link to="/issues/1">
                         Issue with running single test with jest command
-                      </a>
+                      </Link>
                       <div className="issues-title-details">
                         #11185 opened 10 hours ago by B3nnyL
                       </div>
