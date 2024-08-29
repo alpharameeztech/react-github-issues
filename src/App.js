@@ -1,14 +1,30 @@
 import './App.css';
 import Issues from "./Issues";
+import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import Details from "./Details";
+import NoMatch from "./NoMatch";
 
 function App() {
   const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
+      <>
       <div className="container">
         <h1>React Github Reported Issues</h1>
-        <Issues />
+          <Router>
+              <div className="todo-app-container">
+                  <div className="content">
+                      <Routes>
+                          <Route path="/" element={<Issues />} />
+                          <Route path="/issues/:id" element={<Details />} />
+                          <Route path="*" element={<NoMatch />} />
+                      </Routes>
+                  </div>
+              </div>
+          </Router>
+
       </div>
+      </>
   );
 }
 
