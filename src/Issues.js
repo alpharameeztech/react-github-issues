@@ -5,7 +5,7 @@ import {useQuery} from "@tanstack/react-query";
 import IconOpen from "./IconOpen";
 import IconClosed from "./components/IconClosed";
 import {useState} from "react";
-
+import { formatDistance, subDays } from "date-fns";
 function App() {
   const [filter, setFilter] =  useState('open');
   const {
@@ -76,7 +76,7 @@ function App() {
                         {issue.title}
                       </Link>
                       <div className="issues-title-details">
-                        #{issue.number} opened 10 hours ago by {issue.user.login}
+                        #{issue.number} opened {formatDistance(new Date(issue.created_at), new Date(), { addSuffix: true })} by {issue.user.login}
                       </div>
                     </div>
                   </div>
