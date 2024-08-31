@@ -2,21 +2,46 @@ import './App.css';
 import Details from "./Details";
 import {Link} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
+import IconOpen from "./IconOpen";
+import IconClosed from "./components/IconClosed";
+import {useState} from "react";
 
 function App() {
-  const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [filter, setFilter] =  useState('open');
   const {
     isLoading,
     isSuccess,
     data:issues
   } =  useQuery({
-    queryKey: ['issues'],
+    queryKey: ['issues', filter],
     queryFn: fetchIssues
   });
 
+  const { isSuccess: isSuccessIssuesOpen, data: issuesOpen } = useQuery({
+      queryKey: ['issuesOpen'],
+      queryFn: fetchIssuesOpen
+  });
+
+  const { isSuccess: isSuccessIssuesClosed, data: issuesClosed } = useQuery({
+    queryKey: ['issuesClosed'],
+    queryFn: fetchIssuesClosed
+  });
   function fetchIssues(){
-    return fetch(`https://api.github.com/repos/facebook/react/issues`).then(response => response.json())
+    return fetch(`https://api.github.com/repos/facebook/react/issues?state=${filter}`).then(response => response.json())
   }
+
+  function fetchIssuesOpen() {
+    return fetch(
+        `https://api.github.com/search/issues?q=repo:facebook/create-react-app+type:issue+state:open&per_page=1`
+    ).then(response => response.json());
+  }
+
+  function fetchIssuesClosed() {
+    return fetch(
+        `https://api.github.com/search/issues?q=repo:facebook/create-react-app+type:issue+state:closed&per_page=1`
+    ).then(response => response.json());
+  }
+
   return (
       <>
       {isLoading && <div>Loading...</div>}
@@ -26,39 +51,17 @@ function App() {
           <div className="issues-heading">
             <a href="#">facebook / create-react-app</a>
             <div className="open-closed-buttons">
-              <button>
-                <svg
-                    className="open"
-                    viewBox="0 0 16 16"
-                    version="1.1"
-                    width="16"
-                    height="16"
-                    aria-hidden="true"
-                >
-                  <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-                  <path
-                      fill-rule="evenodd"
-                      d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
-                  ></path>
-                </svg>
-                <span className="font-bold">96 Open</span>
+              <button onClick={()=> setFilter('open')}>
+                <IconOpen />
+                {isSuccessIssuesOpen && (
+                  <span className={filter === 'open' ? 'font-bold' : ''}>
+                   {issuesOpen.total_count } Open
+                  </span>
+                )}
               </button>
-              <button>
-                <svg
-                    className="closed"
-                    viewBox="0 0 16 16"
-                    version="1.1"
-                    width="16"
-                    height="16"
-                    aria-hidden="true"
-                >
-                  <path d="M11.28 6.78a.75.75 0 00-1.06-1.06L7.25 8.69 5.78 7.22a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l3.5-3.5z"></path>
-                  <path
-                      fill-rule="evenodd"
-                      d="M16 8A8 8 0 110 8a8 8 0 0116 0zm-1.5 0a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
-                  ></path>
-                </svg>
-                <span className="">254 Closed</span>
+              <button onClick={()=> setFilter('closed')}>
+                <IconClosed />
+                <span className={filter === 'closed' ? 'font-bold' : ''}> {issuesClosed.total_count } Closed</span>
               </button>
             </div>
           </div>
@@ -66,20 +69,8 @@ function App() {
             {issues.map(issue => (
                 <div key={issue.number} className="issues-entry">
                   <div className="issues-entry-title-container">
-                    <svg
-                        className="open"
-                        viewBox="0 0 16 16"
-                        version="1.1"
-                        width="16"
-                        height="16"
-                        aria-hidden="true"
-                    >
-                      <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-                      <path
-                          fill-rule="evenodd"
-                          d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
-                      ></path>
-                    </svg>
+                    {issue.state === 'open' &&  <IconOpen />}
+                    {issue.state === 'closed' &&  <IconClosed />}
                     <div className="issues-title">
                       <Link to="/issues/1">
                         {issue.title}
