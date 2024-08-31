@@ -1,11 +1,26 @@
 import './App.css';
 import Details from "./Details";
 import {Link} from "react-router-dom";
+import {useQuery} from "@tanstack/react-query";
 
 function App() {
   const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const {
+    isLoading,
+    isSuccess,
+    data:issues
+  } =  useQuery({
+    queryKey: ['issues'],
+    queryFn: fetchIssues
+  });
 
+  function fetchIssues(){
+    return fetch(`https://api.github.com/repos/facebook/react/issues`).then(response => response.json())
+  }
   return (
+      <>
+      {isLoading && <div>Loading...</div>}
+        {isSuccess && (
       <div className="container">
         <div className="issues-container">
           <div className="issues-heading">
@@ -48,8 +63,8 @@ function App() {
             </div>
           </div>
           <div className="issues-table">
-            {fakeArray.map(item => (
-                <div key={item} className="issues-entry">
+            {issues.map(issue => (
+                <div key={issue.number} className="issues-entry">
                   <div className="issues-entry-title-container">
                     <svg
                         className="open"
@@ -67,13 +82,15 @@ function App() {
                     </svg>
                     <div className="issues-title">
                       <Link to="/issues/1">
-                        Issue with running single test with jest command
+                        {issue.title}
                       </Link>
                       <div className="issues-title-details">
-                        #11185 opened 10 hours ago by B3nnyL
+                        #{issue.number} opened 10 hours ago by {issue.user.login}
                       </div>
                     </div>
                   </div>
+
+                  { issue.comments > 0 && (
                   <Link to="/issues/1" className="comments-count-container">
                     <svg
                         className="octicon octicon-comment v-align-middle"
@@ -88,15 +105,17 @@ function App() {
                           d="M2.75 2.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 01.75.75v2.19l2.72-2.72a.75.75 0 01.53-.22h4.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25H2.75zM1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0113.25 12H9.06l-2.573 2.573A1.457 1.457 0 014 13.543V12H2.75A1.75 1.75 0 011 10.25v-7.5z"
                       ></path>
                     </svg>
-                    <div class="comments-count">21</div>
+                    <div class="comments-count">{issue.comments}</div>
                   </Link>
+                  )}
                 </div>
             ))}
           </div>
         </div>
 
-        <Details />
       </div>
+        )}
+      </>
   );
 }
 
