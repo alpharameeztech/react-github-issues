@@ -74,7 +74,7 @@ function App() {
                       </div>
                     </div>
                   </div>
-                  <a href="#" className="comments-count-container">
+                  <Link to="/issues/1" className="comments-count-container">
                     <svg
                         className="octicon octicon-comment v-align-middle"
                         viewBox="0 0 16 16"
@@ -89,7 +89,7 @@ function App() {
                       ></path>
                     </svg>
                     <div class="comments-count">21</div>
-                  </a>
+                  </Link>
                 </div>
             ))}
           </div>
