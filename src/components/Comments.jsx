@@ -34,7 +34,7 @@ export default function Comments({issueNumber}) {
                   <div className="comment-heading">
                       <a href={comment.user.html_url}>{comment.user.login}</a> commented {formatDistance(new Date(comment.created_at), new Date(), { addSuffix: true })}
                   </div>
-                  <div className="comment-body">
+                  <div className="comment-body markdown-body">
                       <Markdown
                         children={comment.body}
                       />

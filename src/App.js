@@ -3,7 +3,7 @@ import Issues from "./Issues";
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 import Details from "./Details";
 import NoMatch from "./NoMatch";
-
+import 'github-markdown-css/github-markdown.css';
 function App() {
   const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
