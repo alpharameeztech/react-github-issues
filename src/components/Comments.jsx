@@ -22,7 +22,7 @@ export default function Comments({issueNumber}) {
               <>
             {comments.map(comment => (
             <div key={comment.id} className="comment-container">
-              <a href="#">
+              <a href={comment.user.html_url}>
                   <img
                       src={comment.user.avatar_url}
                       alt="avatar"
@@ -31,7 +31,7 @@ export default function Comments({issueNumber}) {
               </a>
               <div className="comment">
                   <div className="comment-heading">
-                      <a href="#">{comment.user.login}</a> commented {formatDistance(new Date(comment.created_at), new Date(), { addSuffix: true })}
+                      <a href={comment.user.html_url}>{comment.user.login}</a> commented {formatDistance(new Date(comment.created_at), new Date(), { addSuffix: true })}
                   </div>
                   <div className="comment-body">
                       {comment.body}

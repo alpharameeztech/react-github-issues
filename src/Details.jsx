@@ -30,11 +30,11 @@ export default function Details() {
               {issue.title} <span>#{issue.number}</span>
           </h2>
           <div className="issue-details">
-              <a href="">{issue.user.login}</a> opened this issue {formatDistance(new Date(issue.created_at), new Date(), { addSuffix: true })}
+              <a href={issue.user.html_url}>{issue.user.login}</a> opened this issue {formatDistance(new Date(issue.created_at), new Date(), { addSuffix: true })}
           </div>
 
           <div className="comment-container">
-              <a href="#">
+              <a href={issue.user.html_url}>
                   <img
                       src={issue.user.avatar_url}
                       alt="avatar"
