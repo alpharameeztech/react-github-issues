@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {formatDistance} from "date-fns";
 import Comments from "./components/Comments";
+import Markdown from "react-markdown";
 
 export default function Details() {
 
@@ -46,7 +47,9 @@ export default function Details() {
                       <a href="#">{issue.user.login}</a> commented {formatDistance(new Date(issue.created_at), new Date(), { addSuffix: true })}
                   </div>
                   <div className="comment-body">
-                      {issue.body}
+                      <Markdown
+                        children={issue.body}
+                      />
                   </div>
               </div>
           </div>

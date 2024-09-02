@@ -1,6 +1,7 @@
 import React from 'react'
 import {useQuery} from "@tanstack/react-query";
 import {formatDistance} from "date-fns";
+import Markdown from "react-markdown";
 
 export default function Comments({issueNumber}) {
     const {
@@ -34,7 +35,9 @@ export default function Comments({issueNumber}) {
                       <a href={comment.user.html_url}>{comment.user.login}</a> commented {formatDistance(new Date(comment.created_at), new Date(), { addSuffix: true })}
                   </div>
                   <div className="comment-body">
-                      {comment.body}
+                      <Markdown
+                        children={comment.body}
+                      />
                   </div>
               </div>
           </div>
