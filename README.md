@@ -7,6 +7,7 @@ with the comments using the same github format.
 
 ![React To Do App](public/issues.png)
 
+![React To Do App](public/issue.png)
 ## Available Scripts
 
 In the project directory, you can run:
